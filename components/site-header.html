@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chimney Star Global Header Preview</title>
+  <style>
+    :root {
+      --cs-navy: #00265a;
+      --cs-navy-deep: #001d47;
+      --cs-red: #e31c2b;
+      --cs-gold: #f5b51b;
+      --cs-ink: #071c3c;
+      --cs-muted: #52627a;
+      --cs-line: #dce3ec;
+      --cs-white: #fff;
+      --cs-shell: 1420px;
+      --cs-shadow: 0 10px 28px rgb(0 29 71 / 12%);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--cs-ink);
+      background: #f4f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    html.cs-nav-locked,
+    html.cs-nav-locked body { overflow: hidden; }
+    a { color: inherit; }
+    button, summary, a { -webkit-tap-highlight-color: transparent; }
+    [hidden] { display: none !important; }
+    img { display: block; max-width: 100%; }
+    .cs-shell { width: min(calc(100% - 40px), var(--cs-shell)); margin-inline: auto; }
+    .cs-visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* Sticky as requested. The admin-bar rule keeps it usable in WordPress. */
+    .cs-site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--cs-white);
+      box-shadow: var(--cs-shadow);
+    }
+    .admin-bar .cs-site-header { top: var(--wp-admin--admin-bar--height, 32px); }
+
+    .cs-utility {
+      color: #fff;
+      background: var(--cs-navy);
+      border-bottom: 1px solid rgb(255 255 255 / 15%);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+    .cs-utility__inner {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .cs-utility__group { display: flex; align-items: center; gap: 26px; }
+    .cs-utility__item,
+    .cs-utility__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .cs-utility__icon { width: 15px; height: 15px; flex: 0 0 15px; color: var(--cs-gold); }
+    .cs-utility__item:nth-child(2) .cs-utility__icon { color: #ff4050; }
+    .cs-utility__discount { font-weight: 700; }
+    .cs-utility__discount strong { color: var(--cs-gold); }
+    .cs-utility__link:hover,
+    .cs-utility__link:focus-visible { color: var(--cs-gold); }
+
+    .cs-header-main { background: #fff; }
+    .cs-header-main__inner {
+      min-height: 104px;
+      display: grid;
+      grid-template-columns: minmax(205px, 270px) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 30px;
+      transition: min-height .2s ease;
+    }
+    .is-scrolled .cs-header-main__inner { min-height: 82px; }
+    .cs-brand {
+      display: inline-flex;
+      align-items: center;
+      width: min(100%, 260px);
+      border-radius: 4px;
+    }
+    .cs-brand img { width: 260px; height: auto; aspect-ratio: 520 / 173; object-fit: contain; }
+
+    .cs-primary-nav { min-width: 0; justify-self: center; }
+    .cs-primary-nav__list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 1.35vw, 26px);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cs-primary-nav a,
+    .cs-primary-nav summary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      color: var(--cs-ink);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+      white-space: nowrap;
+    }
+    .cs-primary-nav summary::-webkit-details-marker { display: none; }
+    .cs-primary-nav__list > li > a::after,
+    .cs-primary-nav__list > li > details > summary::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--cs-red);
+      transform: scaleX(0);
+      transition: transform .18s ease;
+    }
+    .cs-primary-nav__list > li > a:hover::after,
+    .cs-primary-nav__list > li > a:focus-visible::after,
+    .cs-primary-nav details[open] > summary::after { transform: scaleX(1); }
+    .cs-primary-nav__list > li:first-child > a::after { transform: scaleX(1); }
+    .cs-chevron { width: 14px; height: 14px; margin-left: 4px; transition: transform .18s ease; }
+    details[open] > summary .cs-chevron { transform: rotate(180deg); }
+
+    .cs-nav-details { position: static; }
+    .cs-mega-menu,
+    .cs-area-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      z-index: 20;
+      width: min(calc(100% - 40px), 1040px);
+      padding: 24px;
+      color: var(--cs-ink);
+      background: #fff;
+      border: 1px solid var(--cs-line);
+      border-top: 3px solid var(--cs-red);
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 18px 40px rgb(0 29 71 / 18%);
+      transform: translateX(-50%);
+    }
+    .cs-mega-menu { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+    .cs-mega-menu__column + .cs-mega-menu__column { padding-left: 22px; border-left: 1px solid var(--cs-line); }
+    .cs-mega-menu__heading {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--cs-navy);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .cs-mega-menu ul,
+    .cs-area-menu { margin: 0; list-style: none; }
+    .cs-mega-menu ul { padding: 0; }
+    .cs-mega-menu li + li { margin-top: 3px; }
+    .cs-mega-menu li a,
+    .cs-area-menu a {
+      display: flex;
+      min-height: 38px;
+      align-items: center;
+      color: var(--cs-muted);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: normal;
+    }
+    .cs-mega-menu li a:hover,
+    .cs-mega-menu li a:focus-visible,
+    .cs-area-menu a:hover,
+    .cs-area-menu a:focus-visible { color: var(--cs-red); }
+    .cs-area-menu {
+      left: auto;
+      right: 12%;
+      width: 250px;
+      padding: 14px;
+      transform: none;
+    }
+
+    .cs-header-actions { display: flex; align-items: center; gap: 16px; }
+    .cs-call {
+      display: grid;
+      grid-template-columns: 30px auto;
+      align-items: center;
+      column-gap: 8px;
+      color: var(--cs-ink);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .cs-call__icon { grid-row: 1 / 3; width: 26px; height: 26px; color: var(--cs-red); }
+    .cs-call__eyebrow { color: var(--cs-muted); font-size: 10px; font-weight: 700; }
+    .cs-call__number { font-size: 15px; font-weight: 800; }
+    .cs-button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      color: #fff;
+      background: var(--cs-red);
+      border: 2px solid var(--cs-red);
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 7px 16px rgb(227 28 43 / 20%);
+    }
+    .cs-button:hover,
+    .cs-button:focus-visible { color: var(--cs-red); background: #fff; }
+    .cs-button svg { width: 16px; height: 16px; }
+    .cs-menu-toggle {
+      display: none;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: var(--cs-navy);
+      background: #fff;
+      border: 1px solid var(--cs-line);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cs-menu-toggle svg { width: 24px; height: 24px; }
+    .cs-menu-toggle__close { display: none; }
+    .cs-site-header.is-menu-open .cs-menu-toggle__open { display: none; }
+    .cs-site-header.is-menu-open .cs-menu-toggle__close { display: block; }
+
+    :where(a, button, summary):focus-visible { outline: 3px solid #65a8ff; outline-offset: 3px; }
+
+    .cs-preview-main { min-height: 170vh; padding: 70px 20px; background: linear-gradient(#f4f7fb, #fff); text-align: center; }
+    .cs-preview-main h1 { max-width: 760px; margin: 0 auto 18px; font-size: clamp(32px, 5vw, 60px); }
+    .cs-preview-main p { max-width: 700px; margin: 0 auto; color: var(--cs-muted); line-height: 1.7; }
+    .cs-preview-marker { margin-top: 85vh; font-weight: 800; color: var(--cs-red); }
+
+    @media (max-width: 1240px) {
+      .cs-header-main__inner { grid-template-columns: 220px 1fr auto; gap: 18px; }
+      .cs-primary-nav__list { gap: 12px; }
+      .cs-primary-nav a, .cs-primary-nav summary { font-size: 13px; }
+      .cs-call { display: none; }
+      .cs-button { padding-inline: 16px; }
+    }
+
+    @media (max-width: 1024px) {
+      .cs-shell { width: min(calc(100% - 30px), var(--cs-shell)); }
+      .cs-utility__inner { justify-content: center; }
+      .cs-utility__group--trust { display: none; }
+      .cs-utility__group--offer { width: 100%; justify-content: center; gap: 20px; }
+      .cs-header-main__inner { min-height: 82px; grid-template-columns: minmax(175px, 230px) 1fr auto; }
+      .cs-brand img { width: 230px; }
+      .cs-menu-toggle { display: inline-flex; grid-column: 3; }
+      .cs-header-actions { grid-column: 2; grid-row: 1; justify-self: end; }
+      .cs-header-actions .cs-button { min-height: 46px; }
+      .cs-primary-nav {
+        position: fixed;
+        top: var(--cs-mobile-nav-top, 120px);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        max-width: none;
+        justify-self: stretch;
+        display: none;
+        max-height: none;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 12px max(20px, env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+        background: #fff;
+        border-top: 1px solid var(--cs-line);
+        box-shadow: none;
+        scrollbar-gutter: stable;
+      }
+      .cs-site-header.is-menu-open .cs-primary-nav { display: block; }
+      .cs-primary-nav__list { display: block; width: min(100%, 760px); margin-inline: auto; padding-bottom: 4px; }
+      .cs-primary-nav__list > li { border-bottom: 1px solid var(--cs-line); }
+      .cs-primary-nav__list > li > a,
+      .cs-primary-nav__list > li > details > summary { width: 100%; min-height: 56px; justify-content: space-between; font-size: 16px; }
+      .cs-primary-nav__list > li > a::after,
+      .cs-primary-nav__list > li > details > summary::after { display: none; }
+      .cs-mega-menu,
+      .cs-area-menu {
+        position: static;
+        width: 100%;
+        padding: 10px 0 18px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+      }
+      .cs-mega-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cs-mega-menu__column {
+        padding: 14px 16px;
+        background: #f5f7fb;
+        border: 1px solid #e6ebf2;
+        border-radius: 8px;
+      }
+      .cs-mega-menu__column + .cs-mega-menu__column { padding-left: 16px; border-left: 1px solid #e6ebf2; }
+      .cs-mega-menu__heading { min-height: 42px; display: flex; align-items: center; margin-bottom: 2px; font-size: 15px; }
+      .cs-mega-menu li a,
+      .cs-area-menu a { min-height: 44px; font-size: 14px; }
+      .cs-area-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 18px; }
+    }
+
+    @media (max-width: 680px) {
+      .cs-shell { width: min(calc(100% - 24px), var(--cs-shell)); }
+      .cs-utility { font-size: 11px; }
+      .cs-utility__group--offer { justify-content: space-between; gap: 8px; }
+      .cs-utility__discount { text-align: right; }
+      .cs-header-main__inner { min-height: 74px; grid-template-columns: minmax(145px, 205px) 1fr auto; gap: 12px; }
+      .cs-brand img { width: 205px; }
+      .cs-header-actions { display: none; }
+      .cs-menu-toggle { grid-column: 3; }
+      .cs-primary-nav {
+        padding-inline: max(18px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+      }
+      .cs-primary-nav__mobile-cta {
+        display: flex;
+        width: min(100%, 760px);
+        max-width: 760px;
+        margin: 16px auto 0;
+        color: #fff !important;
+      }
+    }
+
+    @media (min-width: 681px) {
+      .cs-primary-nav__mobile-cta { display: none !important; }
+    }
+
+    @media (max-width: 520px) {
+      .cs-utility__phone-label { display: none; }
+      .cs-utility__link { min-height: 42px; }
+      .cs-header-main__inner { grid-template-columns: minmax(145px, 190px) 1fr auto; }
+      .cs-brand img { width: 190px; }
+      .cs-mega-menu,
+      .cs-area-menu { grid-template-columns: 1fr; }
+      .cs-mega-menu { gap: 10px; }
+      .cs-mega-menu__column,
+      .cs-mega-menu__column + .cs-mega-menu__column { padding: 10px 14px; }
+    }
+
+    @media (max-width: 360px) {
+      .cs-utility__discount span { display: none; }
+      .cs-header-main__inner { grid-template-columns: minmax(130px, 165px) 1fr 48px; }
+      .cs-brand img { width: 165px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="cs-site-header" data-cs-header>
+    <div class="cs-utility">
+      <div class="cs-shell cs-utility__inner">
+        <div class="cs-utility__group cs-utility__group--trust" aria-label="Company trust details">
+          <span class="cs-utility__item">
+            <svg class="cs-utility__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 2.5 2.9 5.87 6.48.94-4.69 4.57 1.11 6.46L12 17.29l-5.8 3.05 1.11-6.46-4.69-4.57 6.48-.94L12 2.5Z"/></svg>
+            Family Owned &amp; Operated Since 2008
+          </span>
+          <span class="cs-utility__item">
+            <svg class="cs-utility__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 2.5 20 6v5.7c0 5.1-3.4 8.3-8 9.8-4.6-1.5-8-4.7-8-9.8V6l8-3.5Z"/><path fill="none" stroke="currentColor" stroke-width="2" d="m8.5 12 2.2 2.2 4.8-5"/></svg>
+            Licensed &amp; Insured
+          </span>
+          <span class="cs-utility__item">
+            <svg class="cs-utility__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+            Proudly Serving Greater Austin
+          </span>
+        </div>
+        <div class="cs-utility__group cs-utility__group--offer">
+          <a class="cs-utility__link" href="tel:+15125012755">
+            <svg class="cs-utility__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.7 3.9.7.6 0 1 .4 1 1v3.7c0 .6-.4 1-1 1C10.5 21.4 2.6 13.5 2.6 3.6c0-.6.4-1 1-1h3.7c.6 0 1 .4 1 1 0 1.4.2 2.7.7 3.9.1.4 0 .8-.2 1.1l-2.2 2.2Z"/></svg>
+            <span class="cs-utility__phone-label">Call </span>(512) 501-2755
+          </a>
+          <a class="cs-utility__link cs-utility__discount" href="/book-online/">
+            <span>First-Time Customer Discount:</span> <strong>25% Off</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-header-main">
+      <div class="cs-shell cs-header-main__inner">
+        <a class="cs-brand" href="/" aria-label="Chimney Star home">
+          <img src="../assets/brand/header-logo.png" width="520" height="173" alt="Chimney Star, Austin's venting specialists" decoding="async">
+        </a>
+
+        <nav class="cs-primary-nav" id="cs-primary-navigation" aria-label="Primary navigation" data-cs-nav>
+          <ul class="cs-primary-nav__list">
+            <li><a href="/" aria-current="page">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li>
+              <details class="cs-nav-details">
+                <summary>Services <svg class="cs-chevron" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m5 7.5 5 5 5-5H5Z"/></svg></summary>
+                <div class="cs-mega-menu">
+                  <section class="cs-mega-menu__column" aria-labelledby="cs-roofing-heading">
+                    <a class="cs-mega-menu__heading" id="cs-roofing-heading" href="/roofing-services/">Roofing Services</a>
+                    <ul>
+                      <li><a href="/roofing-services/leak-repair/">Roof Leak Repair</a></li>
+                      <li><a href="/roofing-services/hail-damage/">Hail Damage Repair</a></li>
+                    </ul>
+                  </section>
+                  <section class="cs-mega-menu__column" aria-labelledby="cs-chimney-heading">
+                    <a class="cs-mega-menu__heading" id="cs-chimney-heading" href="/chimney-services/">Chimney Services</a>
+                    <ul>
+                      <li><a href="/chimney-services/repair/leak/">Leak Repairs</a></li>
+                      <li><a href="/chimney-services/cleaning/">Chimney Cleaning</a></li>
+                      <li><a href="/chimney-services/inspection/">Chimney Inspections</a></li>
+                      <li><a href="/chimney-services/rebuild/">Chimney Rebuilds</a></li>
+                    </ul>
+                  </section>
+                  <section class="cs-mega-menu__column" aria-labelledby="cs-fireplace-heading">
+                    <a class="cs-mega-menu__heading" id="cs-fireplace-heading" href="/chimney-services/fireplace/">Fireplace Services</a>
+                    <ul>
+                      <li><a href="/fireplace-services/gas-repair/">Gas Log Repairs</a></li>
+                      <li><a href="/fireplace-services/firebox-masonry-repair/">Firebox Masonry Repairs</a></li>
+                      <li><a href="/fireplace-services/cleaning/">Fireplace Cleaning</a></li>
+                    </ul>
+                  </section>
+                  <section class="cs-mega-menu__column" aria-labelledby="cs-duct-heading">
+                    <a class="cs-mega-menu__heading" id="cs-duct-heading" href="/air-duct-services/">Duct Services</a>
+                    <ul>
+                      <li><a href="/air-duct-cleaning/">Air Duct Cleaning</a></li>
+                      <li><a href="/dryer-vent-services/">Dryer Vent Safety</a></li>
+                      <li><a href="/air-duct-services/inspection/">Air Duct Inspections</a></li>
+                    </ul>
+                  </section>
+                </div>
+              </details>
+            </li>
+            <li>
+              <details class="cs-nav-details">
+                <summary>Service Areas <svg class="cs-chevron" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m5 7.5 5 5 5-5H5Z"/></svg></summary>
+                <ul class="cs-area-menu">
+                  <li><a href="/locations/austin/">Austin</a></li>
+                  <li><a href="/locations/round-rock/">Round Rock</a></li>
+                  <li><a href="/locations/cedar-park/">Cedar Park</a></li>
+                  <li><a href="/locations/georgetown/">Georgetown</a></li>
+                  <li><a href="/locations/pflugerville/">Pflugerville</a></li>
+                  <li><a href="/locations/">View All Service Areas</a></li>
+                </ul>
+              </details>
+            </li>
+            <li><a href="/reviews/">Reviews</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+          <a class="cs-button cs-primary-nav__mobile-cta" href="/book-online/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 18H5V9h14v11Zm-9-9H7v3h3v-3Z"/></svg>
+            Book Your Service
+          </a>
+        </nav>
+
+        <div class="cs-header-actions">
+          <a class="cs-call" href="tel:+15125012755" aria-label="Call Chimney Star at (512) 501-2755">
+            <svg class="cs-call__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.7 3.9.7.6 0 1 .4 1 1v3.7c0 .6-.4 1-1 1C10.5 21.4 2.6 13.5 2.6 3.6c0-.6.4-1 1-1h3.7c.6 0 1 .4 1 1 0 1.4.2 2.7.7 3.9.1.4 0 .8-.2 1.1l-2.2 2.2Z"/></svg>
+            <span class="cs-call__eyebrow">Call Us Now</span>
+            <span class="cs-call__number">(512) 501-2755</span>
+          </a>
+          <a class="cs-button" href="/book-online/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 18H5V9h14v11Zm-9-9H7v3h3v-3Z"/></svg>
+            Book Your Service
+          </a>
+        </div>
+
+        <button class="cs-menu-toggle" type="button" aria-expanded="false" aria-controls="cs-primary-navigation" aria-label="Open navigation menu" data-cs-menu-toggle>
+          <svg class="cs-menu-toggle__open" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3V6Zm0 5h18v2H3v-2Zm0 5h18v2H3v-2Z"/></svg>
+          <svg class="cs-menu-toggle__close" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="cs-preview-main">
+    <h1>Chimney Star Global Navigation</h1>
+    <p>This local preview includes extra vertical space so you can test the sticky header. Open the service menus, resize the browser, and scroll down to confirm the navigation remains available.</p>
+    <p class="cs-preview-marker">The header should still be visible here.</p>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+      const header = document.querySelector("[data-cs-header]");
+      const nav = document.querySelector("[data-cs-nav]");
+      const toggle = document.querySelector("[data-cs-menu-toggle]");
+      const details = [...document.querySelectorAll(".cs-nav-details")];
+      const mobileQuery = window.matchMedia("(max-width: 1024px)");
+
+      if (!header || !nav || !toggle) return;
+
+      const syncMobilePanel = () => {
+        if (!mobileQuery.matches) return;
+        const headerBottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+        document.documentElement.style.setProperty("--cs-mobile-nav-top", `${headerBottom}px`);
+      };
+
+      const closeMenu = (returnFocus = false) => {
+        header.classList.remove("is-menu-open");
+        document.documentElement.classList.remove("cs-nav-locked");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open navigation menu");
+        details.forEach((item) => item.removeAttribute("open"));
+        if (returnFocus) toggle.focus();
+      };
+
+      const openMenu = () => {
+        syncMobilePanel();
+        header.classList.add("is-menu-open");
+        document.documentElement.classList.add("cs-nav-locked");
+        toggle.setAttribute("aria-expanded", "true");
+        toggle.setAttribute("aria-label", "Close navigation menu");
+        window.requestAnimationFrame(() => nav.querySelector("a, summary")?.focus());
+      };
+
+      toggle.addEventListener("click", () => {
+        header.classList.contains("is-menu-open") ? closeMenu() : openMenu();
+      });
+
+      details.forEach((item) => {
+        item.addEventListener("toggle", () => {
+          if (!item.open) return;
+          details.forEach((other) => {
+            if (other !== item) other.removeAttribute("open");
+          });
+        });
+      });
+
+      nav.addEventListener("click", (event) => {
+        if (mobileQuery.matches && event.target.closest("a")) closeMenu();
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!header.contains(event.target)) {
+          details.forEach((item) => item.removeAttribute("open"));
+          if (mobileQuery.matches) closeMenu();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        const hadOpenMenu = header.classList.contains("is-menu-open");
+        details.forEach((item) => item.removeAttribute("open"));
+        if (hadOpenMenu) closeMenu(true);
+      });
+
+      mobileQuery.addEventListener("change", () => closeMenu());
+      window.addEventListener("resize", () => {
+        if (header.classList.contains("is-menu-open")) syncMobilePanel();
+      }, { passive: true });
+
+      const updateScrolledState = () => header.classList.toggle("is-scrolled", window.scrollY > 16);
+      updateScrolledState();
+      window.addEventListener("scroll", updateScrolledState, { passive: true });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chimney Star Footer Preview</title>
+  <style>
+    :root {
+      --cs-navy: #04244d;
+      --cs-navy-deep: #04244d;
+      --cs-red: #e51f2a;
+      --cs-white: #fff;
+      --cs-shell: 1280px;
+      --cs-roof-height: clamp(120px, 11.8vw, 170px);
+    }
+
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body { min-width: 320px; min-height: 100vh; margin: 0; background: #f4f4f2; color: #172033; font-family: Arial, Helvetica, sans-serif; }
+    img, svg { display: block; max-width: 100%; }
+    .cs-shell { width: min(calc(100% - 3rem), var(--cs-shell)); margin-inline: auto; }
+    .cs-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: .55rem; border-radius: 5px; font-weight: 800; text-decoration: none; transition: background-color .2s ease, transform .2s ease; }
+    .cs-button:hover { transform: translateY(-1px); }
+    .cs-button:focus-visible, .cs-site-footer a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+    .cs-site-footer { position: relative; width: 100%; background: var(--cs-navy); color: rgb(255 255 255 / 84%); }
+    .cs-footer__cta { position: relative; padding: calc(var(--cs-roof-height) - 16px) 0 1.7rem; text-align: center; }
+    .cs-footer__roof { position: absolute; inset: 0 0 auto; width: 100%; height: var(--cs-roof-height); color: var(--cs-navy); background: #f4f4f2; pointer-events: none; }
+    .cs-footer__roof-line { fill: none; stroke: var(--cs-red); stroke-width: 4; vector-effect: non-scaling-stroke; }
+    .cs-footer__roof-cap { fill: var(--cs-red); }
+    .cs-footer__roof-mobile { display: none; }
+    .cs-footer__star { position: absolute; top: calc(var(--cs-roof-height) * .51); left: 50%; transform: translateX(-50%); width: clamp(26px, 2.8vw, 40px); height: clamp(26px, 2.8vw, 40px); color: var(--cs-white); }
+    .cs-footer__cta-inner { position: relative; z-index: 1; display: grid; justify-items: center; }
+    .cs-eyebrow { margin: 0 0 .35rem; color: rgb(255 255 255 / 78%); font-size: .75rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .cs-footer__cta h2 { margin: 0; color: var(--cs-white); font-size: clamp(1.7rem, 2.7vw, 2.35rem); line-height: 1.08; }
+    .cs-footer__cta p:not(.cs-eyebrow) { margin: .4rem 0 1rem; color: rgb(255 255 255 / 74%); font-size: clamp(.82rem, 1.25vw, 1rem); }
+    .cs-footer__cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; }
+    .cs-button--footer-primary, .cs-button--footer-secondary { min-width: 225px; padding: .72rem 1rem; color: var(--cs-white); font-size: .76rem; text-transform: uppercase; }
+    .cs-button--footer-primary { background: var(--cs-red); }
+    .cs-button--footer-secondary { border: 1px solid rgb(255 255 255 / 75%); background: rgb(0 0 0 / 8%); }
+    .cs-button--footer-primary:hover { background: #c51620; }
+    .cs-button--footer-secondary:hover { background: rgb(255 255 255 / 12%); }
+    .cs-button__icon { width: .9rem; height: .9rem; flex: 0 0 auto; }
+
+    .cs-footer__proof { background: var(--cs-navy-deep); }
+    .cs-footer__proof-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: stretch; border-top: 1px solid rgb(255 255 255 / 20%); border-bottom: 1px solid rgb(255 255 255 / 20%); padding: .85rem 0; }
+    .cs-footer__proof-item { display: grid; min-height: 80px; place-items: center; padding: 0 1.25rem; }
+    .cs-footer__proof-item + .cs-footer__proof-item { border-left: 1px solid rgb(255 255 255 / 18%); }
+    .cs-footer__proof-item img { width: auto; max-width: 96%; height: auto; max-height: 64px; object-fit: contain; }
+    .cs-footer__proof-item--wide img { max-width: 156px; }
+
+    .cs-footer__main { display: grid; grid-template-columns: 1.65fr 1fr 1fr .9fr 1.35fr; gap: clamp(1.25rem, 2.7vw, 2.5rem); padding: 1.75rem 0 1.9rem; }
+    .cs-footer__brand img { width: min(235px, 100%); height: auto; margin-bottom: .72rem; }
+    .cs-footer__brand p { max-width: 38ch; margin: 0 0 .8rem; color: rgb(255 255 255 / 80%); font-size: .8125rem; line-height: 1.55; }
+    .cs-footer__social { display: flex; gap: .35rem; }
+    .cs-footer__social a { display: inline-grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: #1558a2; color: var(--cs-white); text-decoration: none; }
+    .cs-footer__social svg { width: 16px; height: 16px; }
+    .cs-footer__social a:last-child { background: #d32323; }
+    .cs-footer__column h3 { margin: .1rem 0 .65rem; color: var(--cs-white); font-size: .75rem; text-transform: uppercase; letter-spacing: .07em; }
+    .cs-footer__column ul { display: grid; gap: .28rem; margin: 0; padding: 0; list-style: none; }
+    .cs-footer__column a { color: rgb(255 255 255 / 82%); font-size: .8125rem; line-height: 1.5; text-decoration: none; }
+    .cs-footer__column li a { display: flex; align-items: center; min-height: 24px; }
+    .cs-footer__column a:hover { color: var(--cs-white); text-decoration: underline; text-underline-offset: .16em; }
+    .cs-footer__contact address { display: grid; gap: .32rem; font-style: normal; }
+    .cs-footer__contact-line, .cs-footer__hours-note { display: grid; grid-template-columns: 15px minmax(0, 1fr); align-items: start; gap: .55rem; }
+    .cs-footer__contact-line { min-height: 24px; }
+    .cs-footer__contact-icon { width: 15px; height: 15px; margin-top: .15rem; color: #ff424c; }
+    .cs-footer__hours-note { margin: .48rem 0 0; color: rgb(255 255 255 / 80%); font-size: .75rem; line-height: 1.5; }
+    .cs-footer__tagline { margin: .65rem 0 0; color: #ff626b; font-family: "Brush Script MT", "Segoe Script", cursive; font-size: 1.1rem; font-style: italic; line-height: 1.3; }
+    .cs-footer__bottom { background: var(--cs-navy-deep); color: rgb(255 255 255 / 72%); font-size: .75rem; }
+    .cs-footer__bottom-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid rgb(255 255 255 / 17%); padding: .9rem 0; }
+    .cs-footer__legal { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .65rem; }
+    .cs-footer__legal a { display: inline-flex; align-items: center; min-height: 24px; color: inherit; text-decoration: none; }
+    .cs-footer__legal > span { align-self: center; }
+    .cs-footer__legal a:hover { color: var(--cs-white); text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .cs-footer__main { grid-template-columns: 1.45fr repeat(2, 1fr); }
+      .cs-footer__brand { grid-row: span 2; }
+      .cs-footer__brand p, .cs-footer__column a, .cs-footer__hours-note { font-size: .875rem; }
+      .cs-footer__column h3 { font-size: .76rem; }
+      .cs-footer__column li a { min-height: 36px; }
+      .cs-footer__proof-item { padding-inline: .65rem; }
+      .cs-footer__proof-grid { grid-template-columns: repeat(6, 1fr); }
+      .cs-footer__proof-item { grid-column: span 2; }
+      .cs-footer__proof-item:nth-child(4), .cs-footer__proof-item:nth-child(5) { grid-column: span 3; border-top: 1px solid rgb(255 255 255 / 18%); }
+      .cs-footer__proof-item:nth-child(4) { border-left: 0; }
+    }
+    @media (max-width: 640px) {
+      :root { --cs-roof-height: 130px; }
+      .cs-shell { width: min(calc(100% - 2rem), var(--cs-shell)); }
+      .cs-footer__cta { padding-bottom: 1.6rem; }
+      .cs-footer__roof-desktop { display: none; }
+      .cs-footer__roof-mobile { display: inline; }
+      .cs-footer__cta h2 { font-size: clamp(1.7rem, 7vw, 2rem); }
+      .cs-footer__cta p:not(.cs-eyebrow) { font-size: .875rem; line-height: 1.5; }
+      .cs-footer__cta-actions { width: 100%; }
+      .cs-button--footer-primary, .cs-button--footer-secondary { width: min(100%, 330px); min-height: 48px; }
+      .cs-footer__proof-grid { grid-template-columns: repeat(2, 1fr); padding: .5rem 0; }
+      .cs-footer__proof-item:nth-child(n) { grid-column: auto; min-height: 78px; border-left: 0; border-top: 0; }
+      .cs-footer__proof-item:nth-child(odd) { border-left: 0; }
+      .cs-footer__proof-item:nth-child(n+3) { border-top: 1px solid rgb(255 255 255 / 18%); }
+      .cs-footer__proof-item:nth-child(even) { border-left: 1px solid rgb(255 255 255 / 18%); }
+      .cs-footer__proof-item:last-child { grid-column: 1 / -1; border-left: 0; }
+      .cs-footer__proof-item img { max-height: 54px; }
+      .cs-footer__main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.35rem 1rem; padding: 1.35rem 0; }
+      .cs-footer__brand { grid-column: 1 / -1; grid-row: auto; }
+      .cs-footer__contact { grid-column: 1 / -1; }
+      .cs-footer__company { grid-column: 1 / -1; }
+      .cs-footer__company ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .28rem 1rem; }
+      .cs-footer__brand p, .cs-footer__column a, .cs-footer__hours-note { font-size: .875rem; }
+      .cs-footer__column h3 { font-size: .8rem; }
+      .cs-footer__column li a { min-height: 44px; width: 100%; }
+      .cs-footer__contact-line { min-height: 44px; align-items: center; }
+      .cs-footer__social { gap: .5rem; }
+      .cs-footer__social a { width: 44px; height: 44px; font-size: .78rem; }
+      .cs-footer__contact-line, .cs-footer__hours-note { overflow-wrap: anywhere; }
+      .cs-footer__bottom-inner { align-items: flex-start; flex-direction: column; }
+      .cs-footer__legal { justify-content: flex-start; }
+      .cs-footer__legal a { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; }
+      .cs-footer__legal > span { align-self: center; }
+      .cs-footer__bottom { font-size: .75rem; }
+    }
+    @media (max-width: 359px) {
+      .cs-footer__main { grid-template-columns: 1fr; }
+      .cs-footer__brand, .cs-footer__contact { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { .cs-button { transition: none; } .cs-button:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <footer class="cs-site-footer">
+    <section class="cs-footer__cta" aria-labelledby="cs-footer-cta-title">
+      <svg class="cs-footer__roof" viewBox="0 0 1440 170" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <g class="cs-footer__roof-desktop">
+          <path fill="currentColor" d="M0 150 535 111 714 47 778 69V26H842V92L903 116 1440 150V174H0Z"/>
+          <path class="cs-footer__roof-line" d="M0 150 535 111 714 47 778 69V26H842V92L903 116 1440 150"/>
+          <path class="cs-footer__roof-cap" d="M774 20H846V29H774Z"/>
+        </g>
+        <g class="cs-footer__roof-mobile">
+          <path fill="currentColor" d="M0 145 390 120 720 52 806 78V30H934V105L1000 122 1440 146V174H0Z"/>
+          <path class="cs-footer__roof-line" d="M0 145 390 120 720 52 806 78V30H934V105L1000 122 1440 146"/>
+          <path class="cs-footer__roof-cap" d="M795 24H945V34H795Z"/>
+        </g>
+      </svg>
+      <svg class="cs-footer__star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="m12 1 3.3 7.4 8 .8-6 5.4 1.8 7.9L12 18.3l-7.1 4.2 1.8-7.9-6-5.4 8-.8Z"/></svg>
+      <div class="cs-shell cs-footer__cta-inner">
+        <p class="cs-eyebrow">Austin's safer venting specialists</p>
+        <h2 id="cs-footer-cta-title">Need Help With Your Chimney?</h2>
+        <p>Tell us what's going on. We'll help you plan the next step.</p>
+        <div class="cs-footer__cta-actions">
+          <a class="cs-button cs-button--footer-primary" href="../contact/">
+            <svg class="cs-button__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V2Zm11 8H6v9a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-9Z"/></svg>
+            Book Your Service
+          </a>
+          <a class="cs-button cs-button--footer-secondary" href="tel:+15125012755">
+            <svg class="cs-button__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m6.6 10.8 2.2-2.2-3-3L4 7.4c-.9.9.1 4.4 3.4 7.7 3.3 3.3 6.8 4.3 7.7 3.4l1.8-1.8-3-3-2.2 2.2c-1.2-.4-2.4-1.2-3.4-2.2-1-1-1.8-2.2-2.2-3.4Z"/></svg>
+            Call (512) 501-2755
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-footer__proof" role="group" aria-label="Chimney Star trust and review marks">
+      <div class="cs-shell cs-footer__proof-grid">
+        <div class="cs-footer__proof-item"><img src="../assets/brand/footer-monochrome-4.png" width="160" height="160" alt="Certified Chimney Sweep mark" loading="lazy" decoding="async" fetchpriority="low"></div>
+        <div class="cs-footer__proof-item"><img src="../assets/brand/footer-monochrome-3.png" width="120" height="160" alt="NFPA mark" loading="lazy" decoding="async" fetchpriority="low"></div>
+        <div class="cs-footer__proof-item"><img src="../assets/brand/footer-monochrome-2.png" width="160" height="160" alt="Fully licensed and insured mark" loading="lazy" decoding="async" fetchpriority="low"></div>
+        <div class="cs-footer__proof-item cs-footer__proof-item--wide"><img src="../assets/brand/footer-monochrome-5.png" width="320" height="160" alt="Google reviews mark" loading="lazy" decoding="async" fetchpriority="low"></div>
+        <div class="cs-footer__proof-item cs-footer__proof-item--wide"><img src="../assets/brand/footer-monochrome-1.png" width="240" height="160" alt="Yelp reviews mark" loading="lazy" decoding="async" fetchpriority="low"></div>
+      </div>
+    </div>
+
+    <div class="cs-shell cs-footer__main">
+      <div class="cs-footer__brand">
+        <a href="../" aria-label="Chimney Star home">
+          <img src="../assets/brand/footer-monochrome-logo.png" width="440" height="146" alt="Chimney Star" loading="lazy" decoding="async" fetchpriority="low">
+        </a>
+        <p>Family-owned and fully insured since 2008. Chimney Star helps Austin-area homeowners with chimney sweeps, inspections, repairs, air duct care, and dryer vent services.</p>
+        <nav class="cs-footer__social" aria-label="Social media">
+          <a href="https://www.facebook.com/Chimneystaraustin/" aria-label="Chimney Star on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14 22v-9h3l.5-4H14V6.8c0-1.1.3-1.8 1.8-1.8H18V1.5c-.4-.1-1.7-.2-3-.2-3 0-5 1.8-5 5.1V9H7v4h3v9Z"/></svg></a>
+          <a href="https://www.instagram.com/chimneystarsweep/" aria-label="Chimney Star on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://twitter.com/chimney_star" aria-label="Chimney Star on X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.4l8.2-9.5L2 2h6.5l4.6 6.8L18.9 2Zm-1.1 18h1.7L7.5 4H5.7Z"/></svg></a>
+          <a href="https://www.yelp.com/biz/chimney-star-chimney-sweep-and-air-duct-cleaning-pflugerville-3" aria-label="Chimney Star on Yelp"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="m10 10-4-7c-.4-.8 0-1.5.7-1.7L11.3 0c.9-.2 1.6.4 1.5 1.3L12 9.5c0 1-1.3 1.4-2 .5Zm-2 3-5-1.6c-.8-.3-1.5.2-1.5 1l-.2 3.4c0 .9.8 1.4 1.6 1.1l5.2-2.1c.8-.3.8-1.5-.1-1.8Zm2.2 3-2.5 4.8c-.4.8 0 1.5.8 1.6l3.5.6c.8.1 1.5-.6 1.2-1.4L12 16.3c-.2-.9-1.4-1.1-1.8-.3Zm5-1.5 5.2 1.5c.8.2 1 .9.5 1.6l-2.2 2.6c-.5.6-1.4.5-1.8-.2l-3-4.3c-.5-.8.3-1.6 1.3-1.2Zm-.9-4 4.3-3.3c.7-.6 1.4-.3 1.6.5l1 3.3c.3.8-.4 1.6-1.2 1.5l-5.4-.3c-.9 0-1.1-1.2-.3-1.7Z"/></svg></a>
+        </nav>
+      </div>
+
+      <nav class="cs-footer__column" aria-labelledby="cs-footer-services">
+        <h3 id="cs-footer-services">Our Services</h3>
+        <ul>
+          <li><a href="../chimney-services/cleaning/">Chimney Sweeping</a></li>
+          <li><a href="../chimney-services/inspection/">Chimney Inspections</a></li>
+          <li><a href="../chimney-services/repair/">Chimney Repairs</a></li>
+          <li><a href="../chimney-services/rebuild/">Chimney Rebuilds</a></li>
+          <li><a href="../fireplace-services/">Fireplace Services</a></li>
+          <li><a href="../air-duct-services/">Air Duct Cleaning</a></li>
+          <li><a href="../dryer-vent-services/">Dryer Vent Cleaning</a></li>
+        </ul>
+      </nav>
+
+      <nav class="cs-footer__column" aria-labelledby="cs-footer-areas">
+        <h3 id="cs-footer-areas">Service Areas</h3>
+        <ul>
+          <li><a href="../service-areas/austin/">Austin</a></li>
+          <li><a href="../service-areas/round-rock/">Round Rock</a></li>
+          <li><a href="../service-areas/cedar-park/">Cedar Park</a></li>
+          <li><a href="../service-areas/georgetown/">Georgetown</a></li>
+          <li><a href="../service-areas/pflugerville/">Pflugerville</a></li>
+          <li><a href="../service-areas/leander/">Leander</a></li>
+          <li><a href="../service-areas/">View All Areas →</a></li>
+        </ul>
+      </nav>
+
+      <nav class="cs-footer__column cs-footer__company" aria-labelledby="cs-footer-company">
+        <h3 id="cs-footer-company">Company</h3>
+        <ul>
+          <li><a href="../about/">About Us</a></li>
+          <li><a href="../about/team/">Our Team</a></li>
+          <li><a href="../reviews/">Reviews</a></li>
+          <li><a href="../blog/">Blog</a></li>
+          <li><a href="../faqs/">FAQs</a></li>
+          <li><a href="../careers/">Careers</a></li>
+        </ul>
+      </nav>
+
+      <div class="cs-footer__column cs-footer__contact">
+        <h3>Contact</h3>
+        <address>
+          <a class="cs-footer__contact-line" href="https://maps.google.com/?q=14199+N+Interstate+Hwy+35+%234307+Pflugerville+TX+78660"><svg class="cs-footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>14199 N Interstate Hwy 35 #4307<br>Pflugerville, TX 78660</span></a>
+          <a class="cs-footer__contact-line" href="tel:+15125012755"><svg class="cs-footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 3 4-1 3 6-3 2c1.6 3 3 4.4 6 6l2-3 6 3-1 4c-.3 1.1-1.5 2-2.7 1.7C10.1 20.2 3.8 13.9 2.3 5.7 2 4.5 2.9 3.3 4 3Z"/></svg><span>(512) 501-2755</span></a>
+          <a class="cs-footer__contact-line" href="mailto:info@chimney-star.com"><svg class="cs-footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/></svg><span>info@chimney-star.com</span></a>
+        </address>
+        <p class="cs-footer__hours-note"><svg class="cs-footer__contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><span>Mon–Sun: 24 hours<br>Service availability varies.</span></p>
+        <p class="cs-footer__tagline">Keeping Austin Homes Safer</p>
+      </div>
+    </div>
+
+    <div class="cs-footer__bottom">
+      <div class="cs-shell cs-footer__bottom-inner">
+        <span>© 2026 Chimney Star. All rights reserved.</span>
+        <span class="cs-footer__legal"><span>Austin, Texas</span><span>Family-Owned Since 2008</span><a href="../privacy-policy/">Privacy</a><a href="../terms/">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
